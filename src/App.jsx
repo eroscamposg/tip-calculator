@@ -43,8 +43,12 @@ function App() {
   return (
     <>
       <BillInput bill={bill} onBillChange={handleBillChange}/>
-      <PersonalInput rating={rating} onInputChange={handlePersonalInput} />
-      <FriendInput friendRating={friendRating} onInputChange={handleFriendInput} />
+      <ServiceSelector rating={rating} onSelect={handlePersonalInput} >
+        How did you like the service?
+      </ServiceSelector>
+      <ServiceSelector rating={friendRating} onSelect={handleFriendInput} >
+        How did your friend like the service?
+      </ServiceSelector>
       <TotalBill bill={bill} tip={tip}/>
     </>
   )
@@ -64,26 +68,13 @@ function BillInput({ bill, onBillChange }) {
   )
 }
 
-function PersonalInput({rating, onInputChange}) {
+function ServiceSelector({rating, onSelect, children}) {
   return (
     <div>
-      <p>How did you like the service?</p>
-      <select type="number" name="personal-rating" id="personal-rating" onChange={onInputChange} value={rating}>
+      <p>{children}</p>
+      <select type="number" name="personal-rating" id="personal-rating" onChange={onSelect} value={rating}>
         {serviceRatings.map((service, i) => {
           return <option key={`ps-${i}`} value={service.percentage}>{service.text} ({service.percentage * 100}%)</option>
-        })}
-      </select>
-    </div>
-  )
-}
-
-function FriendInput({friendRating, onInputChange}) {
-  return (
-    <div>
-      <p>How did your friend like the service?</p>
-      <select type="number" name="friend-rating" id="friend-rating" onChange={onInputChange} value={friendRating}>
-        {serviceRatings.map((service, i) => {
-          return <option key={`fs-${i}`} value={service.percentage}>{service.text} ({service.percentage * 100}%)</option>
         })}
       </select>
     </div>
